@@ -6,7 +6,7 @@ class PresenceSensor:
     def _init_(self):
         self.objectDetected = digitalio.DigitalInOut(board.D11)
         self.objectDetected.direction = digitalio.Direction.INPUT
-    def checkPresenece(self):
+    def checkPresence(self):
         return self.objectDetected.value
                 
 class SmileySpeakerOutput:
@@ -23,25 +23,23 @@ class SmileySpeakerOutput:
         speakerOn.value = False
         smileyOn.value = False
 
-class EasyStateMachine:
-    NO_OBJECT_OUTPUT_NO_TRIGGER = 0
-    OBJECT_OUTPUT_ALREADY_TRIGGERED = 1
-
+class CubeWelcomer:
     def _init_(self):
         self.smiley_speaker = SmileySpeakerOutput()
-        self.presence_sensor = PresenceSensor()
         self.object_in_view = False
-    def determineState(self, objectPresent):
+    def toGreetOrNotToGreet(self, objectPresent):
         if (self.object_in_view == False and
         objectPresent == True):
             SmileySpeakerOutput.trigger()
             self.object_in_view = True
         elif (self.object_in_view == True and
         objectPresent == False):
-            self.object_in_view = False
-        return     
+            self.object_in_view = False   
     
+cubeWelcomer = CubeWelcomer()
+presenceSensor = PresenceSensor()
+
 while True:
-
-
+    cubeWelcomer.toGreetOrNotToGreet(presenceSensor.checkPresence)
+    time.sleep(0.25)
     
