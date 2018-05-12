@@ -7,7 +7,7 @@ class PresenceSensor:
         self.presenceSignal = digitalio.DigitalInOut(board.D4)
         self.presenceSignal.direction = digitalio.Direction.INPUT
     def checkPresence(self):
-        return (!self.presenceSignal.value) #Reverse sensor logic to be more intuitive
+        return (not self.presenceSignal.value) #Reverse sensor logic to be more intuitive
                 
 class SmileySpeakerOutput:
     def __init__(self):
