@@ -23,22 +23,25 @@ class SmileySpeakerOutput:
         speakerOn.value = False
         smileyOn.value = False
 
-class Program:
+class EasyStateMachine:
+    NO_OBJECT_OUTPUT_NO_TRIGGER = 0
+    OBJECT_OUTPUT_ALREADY_TRIGGERED = 1
+
     def _init_(self):
         self.smiley_speaker = SmileySpeakerOutput()
         self.presence_sensor = PresenceSensor()
-        self.trigger_state = "NotYetTriggered"
-        self.object_present_previous = "NotPresent"
-    def determineState(self, objectDetected):
-        #TODO determine current state
-    def executeState(self, state):
-        #TODO how to execute specific state
-    def start(self):
-        while True:
-            executeState(determineState(self.presenceSensor.checkPresence()))
-            #maybe put some delay here
-     
-program = DetectionProgram()
-app.start()
+        self.object_in_view = False
+    def determineState(self, objectPresent):
+        if (self.object_in_view == False and
+        objectPresent == True):
+            SmileySpeakerOutput.trigger()
+            self.object_in_view = True
+        elif (self.object_in_view == True and
+        objectPresent == False):
+            self.object_in_view = False
+        return     
+    
+while True:
+
 
     
