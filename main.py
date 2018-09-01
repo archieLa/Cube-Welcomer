@@ -16,11 +16,12 @@ class SmileySpeakerOutput:
         self.smileyOn = digitalio.DigitalInOut(board.D2)
         self.smileyOn.direction = digitalio.Direction.OUTPUT
         self.onDelay = 1
-    def trigger(self):
+    def outputsOn(self):
         self.speakerOn.value = True
         self.smileyOn.value = True
         self.time.sleep(self.onDelay)
         self.speakerOn.value = False
+    def outputsOff(self):
         self.smileyOn.value = False
 
 class CubeWelcomer:
@@ -30,11 +31,12 @@ class CubeWelcomer:
     def toGreetOrNotToGreet(self, objectPresent):
         if (self.object_in_view == False and
         objectPresent == True): 
-            SmileySpeakerOutput.trigger()
+            self.smiley_speaker.outputsOn()
             self.object_in_view = True
         elif (self.object_in_view == True and
         objectPresent == False):
-            self.object_in_view = False   
+            self.object_in_view = False
+            self.smiley_speaker.outputsOff()   
     
 cubeWelcomer = CubeWelcomer()
 presenceSensor = PresenceSensor()
